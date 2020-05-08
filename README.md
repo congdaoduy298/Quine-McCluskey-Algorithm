@@ -9,4 +9,6 @@
   
   3. Run file gui.py by terminal 
    + python3.6 main.py
+ 
+ # Examples of output
   
