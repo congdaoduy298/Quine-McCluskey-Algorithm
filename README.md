@@ -12,3 +12,10 @@
  
  # Examples of output
   
+  ![Example 1](https://github.com/congdaoduy298/Quine-McCluskey-Algorithm/blob/master/image/Screenshot%20from%202020-05-09%2000-46-30.png)
+  
+  ![Example 2](https://github.com/congdaoduy298/Quine-McCluskey-Algorithm/blob/master/image/Screenshot%20from%202020-05-09%2000-46-30.png)
+  
+  ![Example 2](https://github.com/congdaoduy298/Quine-McCluskey-Algorithm/blob/master/image/Screenshot%20from%202020-05-09%2000-46-30.png)
+  
+  ![Example 2](https://github.com/congdaoduy298/Quine-McCluskey-Algorithm/blob/master/image/Screenshot%20from%202020-05-09%2000-46-30.png)
