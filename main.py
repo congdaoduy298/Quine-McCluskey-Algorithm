@@ -32,107 +32,149 @@ def num_of_different(a, b):
             index = i
     return count, index
 
-print("How many variables you want to use ?")
-n = int(input())
+
+def update_dict(current_list, out_dict, a, index_list, i):
+    for j in current_list:
+        for key in list(j.keys())[0]:
+            if a[i] == key:
+                out_dict.update(j) 
+                index_list[i] = -2
+                return out_dict, index_list
+    return out_dict, index_list
 
 # Create dictionary exp2 
-results = Solution()
-results.dict_exp2(n-1)
-print(results.exp2)
-print("List number ... ")
-a = list(map(int, input().split()))
+def utils(n, a, checked):
 
-list_str = []
-for i in a:
-    list_str.append({(i, ):results.convert_to_binary(i, n)})
+    results = Solution()
+    results.dict_exp2(n-1)
 
-len_list = len(list_str)
-current_list =  copy.deepcopy(list_str)
-done = False 
-step_i = 0
+    list_str = []
+    for i in a:
+        list_str.append({(i, ):results.convert_to_binary(i, n)})
+    len_list = len(list_str)
+    current_list =  copy.deepcopy(list_str)
+    done = False 
+    step_i = 0
+    message = ""
 
-while not done:
-    done = True 
-    new_list = []
-    step_i += 1
-    len_cur_list = len(current_list)
-    flag = np.zeros_like(current_list)
+    while not done:
+        done = True 
+        new_list = []
+        step_i += 1
+        len_cur_list = len(current_list)
+        flag = np.zeros_like(current_list)
 
-    for i in range(0, len_cur_list-1):
-        for j in range(i+1, len_cur_list):
+        for i in range(0, len_cur_list-1):
+            for j in range(i+1, len_cur_list):
 
-            # print(list(current_list[i].keys())[0], list(current_list[i].keys())[0])
-            count, index =  num_of_different(list(current_list[i].values())[0], list(current_list[j].values())[0])
-            if count == 1:
-                done = False 
-                # prevent list share memory with other list 
-                value = copy.deepcopy(list(current_list[i].values())[0])
-                value[index] = '-'
-                key = list(current_list[i].keys())[0] + list(current_list[j].keys())[0]
-                new_dict ={tuple(sorted(key)):value}
-                if new_dict not in new_list:
-                    new_list.append(new_dict)
-                flag[i], flag[j] = 1, 1
+                # print(list(current_list[i].keys())[0], list(current_list[i].keys())[0])
+                count, index =  num_of_different(list(current_list[i].values())[0], list(current_list[j].values())[0])
+                if count == 1:
+                    done = False 
+                    # prevent list share memory with other list 
+                    value = copy.deepcopy(list(current_list[i].values())[0])
+                    value[index] = '-'
+                    key = list(current_list[i].keys())[0] + list(current_list[j].keys())[0]
+                    new_dict ={tuple(sorted(key)):value}
+                    if new_dict not in new_list:
+                        new_list.append(new_dict)
+                    flag[i], flag[j] = 1, 1
 
-    # append key of dict not join with other one.
-    for i in range(len(current_list)):
-        if not flag[i]:
-            new_list.append(current_list[i])
+        # append key of dict not join with other one.
+        # If nothing is True, the step before is the final step
+        if True in flag:
+            for i in range(len(current_list)):
+                if not flag[i]:
+                    new_list.append(current_list[i])
 
-    if new_list != []:
-        current_list = copy.deepcopy(new_list)
-        print(f'Step {step_i}:')
-        for d in current_list:
-            print(list(d.keys())[0], ''.join(list(d.values())[0]))
+        if new_list != []:
+            current_list = copy.deepcopy(new_list)
+            message += f'\nStep {step_i}:\n'
+            for d in current_list:
+                message += f"{list(d.keys())[0]}, {''.join(list(d.values())[0])}\n"
+            # print(message)
 
 
-current_len = len(current_list)
+    current_len = len(current_list)
 
-count_results = np.zeros((current_len, len_list), dtype=int)
+    count_results = np.zeros((current_len, len_list), dtype=int)
 
-for i, current_dict in enumerate(current_list):
-    for key in list(current_dict.keys())[0]:
-        count_results[i, a.index(key)] = 1
+    for i, current_dict in enumerate(current_list):
+        for key in list(current_dict.keys())[0]:
+            count_results[i, a.index(key)] = 1
 
-# create a list save index of row if column just has 1 
-# and handle the case i = 0
-index_list = [0 if j == 1 else -1 for i, j in enumerate(count_results[0])]
+    # create a list save index of row if column just has 1 
+    # and handle the case i = 0
+    index_list = [0 if j == 1 else -1 for i, j in enumerate(count_results[0])]
 
-for i in range(1, count_results.shape[0]):
-    for j in range(count_results.shape[1]):
-        if count_results[i, j] == 0:
-            count_results[i, j] = count_results[i-1, j]
-        else:
-            count_results[i, j] = count_results[i-1, j] + count_results[i, j] 
-            if count_results[i, j] == 1:
-                index_list[j] = i 
+    # count number 1 on column 
+    for i in range(1, count_results.shape[0]):
+        for j in range(count_results.shape[1]):
+            if count_results[i, j] == 0:
+                count_results[i, j] = count_results[i-1, j]
             else:
-                index_list[j] = -1
+                count_results[i, j] = count_results[i-1, j] + count_results[i, j] 
+                if count_results[i, j] == 1:
+                    index_list[j] = i 
+                else:
+                    index_list[j] = -1
 
+    # print(count_results)
+    # print(index_list)
 
-out_dict = {}
-for i in index_list:
-    if i != -1:
-        out_dict[i] = list(current_list[i].values())[0]
+    out_dict = {}
+    # must mask all column 
+    mask_all = False 
+    while not mask_all:
+        mask_all = True
+        for i in index_list:
+            if i > -1:
+                out_dict[i] = list(current_list[i].values())[0]
+                for key in list(current_list[i].keys())[0]:
+                    # -2 ~ used column
+                    index_list[a.index(key)] = -2
 
-# print(out_dict)
+        for i in range(len(index_list)):
+            if index_list[i] != -2:
+                mask_all = False
+                out_dict, index_list = update_dict(current_list, out_dict, a, index_list, i)
+                
 
-ascii_letters = string.ascii_letters
+    ascii_letters = string.ascii_letters
 
-y = ''
-for key, list_char in out_dict.items():
-    for i, char_i in enumerate(list_char):
-        if char_i == '0':
-            list_char[i] = ascii_letters[i]
-        elif char_i == '1':
-            list_char[i] = ascii_letters[i+26]
-        else:
-            list_char[i] = ''
-    y += ''.join(list_char) + '+'
-y = y[:-1]
+    if checked == 1:
+        y = ''
+        for key, list_char in out_dict.items():
+            for i, char_i in enumerate(list_char):
+                if char_i == '0':
+                    list_char[i] = ascii_letters[i]
+                elif char_i == '1':
+                    list_char[i] = ascii_letters[i+26]
+                else:
+                    list_char[i] = ''
+            y += ''.join(list_char) + '+'
+        y = y[:-1]
+    else:
+        y = ''
+        for key, list_char in out_dict.items():
+            # print(list_char)
+            for i, char_i in enumerate(list_char):
+                if char_i == '0':
+                    list_char[i] = ascii_letters[i+26]
+                elif char_i == '1':
+                    list_char[i] = ascii_letters[i]
+                else:
+                    list_char[i] = ''
+            # drop '' value 
+            tmp_list = [i for i in list_char if i!='']
+            y += '(' + '+'.join(tmp_list) + ').'
+        y = y[:-1]
+    # print(checked)
+    message += f'\nFinal Result : Y = {y}\n'
+    message += '\nCheck it yourself ... ^-^ No one and Nothing is perfect'
+    print(message)
 
-print(f' Final Result : Y = {y}')
-
+    return message
 
 
 
