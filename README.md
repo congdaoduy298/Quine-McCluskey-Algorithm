@@ -2,12 +2,17 @@
 
 # Installation and Run
 
-  1. Clone or download this repository 
-
-  2. Install dependencies
-   + pip3 install -r requirements.txt
+  1. Python3 .
   
-  3. Run file by terminal or cmd 
+  2. Clone or download this repository .
+
+  3. Install dependencies .
+   
+   + pip3 install -r requirements.txt (sudo apt install python3-pip if you don't have pip3)
+   
+   + sudo apt-get install python3-tk (Terminal) or https://stackoverflow.com/questions/20044559/how-to-pip-or-easy-install-tkinter-on-windows (If you use Windows)
+   
+  4. Run file by terminal or cmd .
    + python3.6 GUI.py 
  
  # Examples of output
