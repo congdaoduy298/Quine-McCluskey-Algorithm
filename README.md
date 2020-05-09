@@ -8,7 +8,7 @@
    + pip3 install -r requirements.txt
   
   3. Run file by terminal or cmd 
-   + python3.6 gui.py 
+   + python3.6 GUI.py 
  
  # Examples of output
   
