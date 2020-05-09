@@ -172,7 +172,7 @@ def utils(n, a, checked):
     # print(checked)
     message += f'\nFinal Result : Y = {y}\n'
     message += '\nCheck it yourself ... ^-^ No one and Nothing is perfect'
-    print(message)
+    # print(message)
 
     return message
 
