@@ -1,2 +1,5 @@
 numpy 
 string
+copy
+tkinter 
+functools
